@@ -22,6 +22,13 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
+//Global Error handler
+
+app.use(function (err, req, res, next) {
+  return res.json({ msg: err.message, status: false });
+})
+
+
 const server = app.listen(process.env.PORT, () =>
   console.log(`Server started on ${process.env.PORT}`)
 );
