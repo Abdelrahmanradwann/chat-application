@@ -19,14 +19,15 @@ export default function Contacts({ contacts, changeChat }) {
   };
   return (
     <>
+   
       {currentUserImage && currentUserImage && (
         <Container>
           <div className="brand">
             {/* <img src={Logo} alt="logo" /> */}
             <h3>snappy</h3>
           </div>
-          <div className="contacts">
-            {contacts.map((contact, index) => {
+          <div className="contacts"> 
+            { contacts.length && contacts.map((contact, index) => {
               return (
                 <div
                   key={contact._id}
@@ -37,8 +38,8 @@ export default function Contacts({ contacts, changeChat }) {
                 >
                   <div className="avatar">
                     <img
-                      // src={`data:image/svg+xml;base64,${contact.avatarImage}`}
-                      // alt=""
+                      src={`data:image/svg+xml;base64,${contact.avatarImage}`}
+                      alt=""
                     />
                   </div>
                   <div className="username">
@@ -46,13 +47,13 @@ export default function Contacts({ contacts, changeChat }) {
                   </div>
                 </div>
               );
-            })}
+            })} 
           </div>
           <div className="current-user">
             <div className="avatar">
               <img
-                // src={`data:image/svg+xml;base64,${currentUserImage}`}
-                // alt="avatar"
+                src={`data:image/svg+xml;base64,${currentUserImage}`}
+                alt="avatar"
               />
             </div>
             <div className="username">
