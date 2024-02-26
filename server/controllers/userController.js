@@ -41,7 +41,11 @@ module.exports.register = asynchandler ( async (req, res, next) => {
   const name = await User.findOne({ userName: userName });
 
   if (name) {
-    const error = new Error("hehe");
+    const error = new Error("Username already exists");
+    throw error;
+  }
+  if (!validator.isEmail(email)) {
+    const error = Error("Email is not correct");
     throw error;
   }
   const mail = await User.findOne({ email: email });
@@ -72,13 +76,37 @@ module.exports.register = asynchandler ( async (req, res, next) => {
   });
 });
 
-module.exports.getAllUsers = async (req, res, next) => {
+module.exports.getAllUsers = asynchandler ( async (req, res, next) => {
+  const  id = req.params.id;
+  const users = await User.find({ _id: { $ne: id } }).select(["userName, email, avatarImage, _id"]);
+  res.json({
+    users,
+    status: true
+  });
+});
 
-};
+module.exports.setAvatar = asynchandler(async (req, res, next) => {
+  console.log("here")
+  const id = req.params.id;
+  const avatarImage = req.body.image;
+  const data = await User.findOneAndUpdate(
+    {_id: new mongoose.Types.ObjectId(id)},
+    {
+      $set: {
+        avatarImage: avatarImage,
+        isAvatarImageSet: true
+      }
+    },
+    {
+      new: true
+    }
+  )
+  res.json({
+      isSet: data.isAvatarImageSet,
+      image: data.avatarImage,
+  })
 
-module.exports.setAvatar = async (req, res, next) => {
-
-};
+});
 
 module.exports.logOut = (req, res, next) => {
 
