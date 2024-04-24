@@ -61,7 +61,8 @@ module.exports.register = asynchandler ( async (req, res, next) => {
     password:hashedPassword,
   });
    
-   newUser.save();
+  user.save();
+ 
   return res.json({
     status: true,
     user
@@ -103,6 +104,7 @@ module.exports.setAvatar = asynchandler(async (req, res, next) => {
 
 module.exports.logOut = (req, res, next) => {
   if (req.params.id) {
+     onlineUsers.delete(req.params.id);
     res.status(200).send();
   }
   else {
