@@ -15,7 +15,6 @@ export default function ChatContainer({ currentChat, socket }) {
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
-
     const response = await axios.post(recieveMessageRoute, {
       from: data._id,
       to: currentChat._id,
@@ -60,7 +59,7 @@ export default function ChatContainer({ currentChat, socket }) {
         setArrivalMessage({ fromSelf: false, message: msg });
       });
     }
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);

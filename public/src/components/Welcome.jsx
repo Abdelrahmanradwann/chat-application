@@ -2,17 +2,24 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Robot from "../assets/robot.gif";
 export default function Welcome() {
-  const [userName, setUserName] = useState("");
-  useEffect(async () => {
-    
-    setUserName(
-      
-      await JSON.parse(
-    
+const [userName, setUserName] = useState("");
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const storedData = await JSON.parse(
         localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-      ).username
-    );
-  }, []);
+      );
+      if (storedData) {
+        setUserName(storedData.username);
+      }
+    } catch (error) {
+      console.error("Error fetching and setting username:", error);
+    }
+  };
+
+  fetchData();
+}, []);
   return (
     <Container>
       <img src={Robot} alt="" />
